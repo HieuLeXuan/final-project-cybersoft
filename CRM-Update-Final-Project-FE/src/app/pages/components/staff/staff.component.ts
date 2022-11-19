@@ -42,6 +42,7 @@ export class StaffComponent implements OnInit {
         'firstName',
         'username',
         'email',
+        'role',
         'accountStatus',
         'action',
       ];
@@ -51,6 +52,7 @@ export class StaffComponent implements OnInit {
         'firstName',
         'username',
         'email',
+        'role',
         'accountStatus',
       ];
     }
@@ -64,7 +66,7 @@ export class StaffComponent implements OnInit {
 
   getAllStaffs() {
     this.statusStaff = '';
-    this.staffService.getStaffs().subscribe((content) => {
+    this.staffService.getStaffsWithInfo().subscribe((content) => {
       this.staffs = content;
       this.pagingAndSorting();
     });
@@ -72,7 +74,7 @@ export class StaffComponent implements OnInit {
 
   getAllStaffsWithAccountStatus(status: string) {
     this.statusStaff = status;
-    this.staffService.getStaffs().subscribe((content) => {
+    this.staffService.getStaffsWithInfo().subscribe((content: any) => {
       this.staffs = content.filter(
         (staff: any) => staff.accountStatus == status
       );
@@ -82,6 +84,20 @@ export class StaffComponent implements OnInit {
 
   filterByKeyword(event: Event) {
     this.dataSource.filter = (event.target as HTMLInputElement).value;
+  }
+
+  showRole(user: any): string[] {
+    let isAdmin = false;
+    user.roles.forEach((role: any) => {
+      if (role.code == AppSettings.ROLE_ADMIN) {
+        isAdmin = true;
+      } 
+    });
+    if (isAdmin) {
+      return ["ADMIN"]
+    } else {
+      return user.roles.map((role: any) => role.name)
+    }
   }
 
   addStaff() {

@@ -133,6 +133,16 @@
                                         class="badge bg-label-danger me-1">{{element.accountStatus}} </span>
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="role">
+                                <th mat-sort-header mat-header-cell *matHeaderCellDef class="fs-6 fst-italic">
+                                    <strong>Role</strong>
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div *ngFor="let role of showRole(element)">
+                                        {{role}}
+                                    </div>
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="action"
                                 *ngIf="appSettings.USER_ROLES.includes(appSettings.ROLE_ADMIN)">
                                 <th mat-header-cell *matHeaderCellDef class="fs-6 fst-italic"> <strong>Action</strong>
